@@ -2,8 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-app
+  labels:
+    name: backend-app
+  annotations:
+    inject-jaeger-agent: "simpletest"
+    sidecar.jaegertracing.io/inject: "simpletest"
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: backend
@@ -14,7 +19,8 @@ spec:
     spec:
       containers:
       - name: backend
-        image: ghcr.io/thejaysmith/backend:v1
+        image: durbin164/building-monitoring-backend:v2
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
 ---
