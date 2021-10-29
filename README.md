@@ -83,8 +83,8 @@ Affected Area: [reference-app/backend/app.py](reference-app/backend/app.py) line
 
 Severity: Critical
 
-Description: When we hit the backend api with url path "/str" with post request, it produce error and return 500
-status code. It may be cause for not properly setting up mongo db.
+Description: When we hit the backend api with url path "/star" with post request, it produce error and return 500
+status code. It may be cause for not properly setting up database.
 
 ![Here the error span](answer-img/jaeger_tracing_error.png)
 
