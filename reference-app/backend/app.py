@@ -5,8 +5,11 @@ from flask_pymongo import PyMongo
 
 from jaeger_client import Config
 from flask_opentracing import FlaskTracing
+from prometheus_flask_exporter import PrometheusMetrics
+
 
 app = Flask(__name__)
+PrometheusMetrics(app)
 
 app.config['MONGO_DBNAME'] = 'example-mongodb'
 app.config['MONGO_URI'] = 'mongodb://example-mongodb-svc.default.svc.cluster.local:27017/example-mongodb'
@@ -27,6 +30,8 @@ config = Config(
 tracer = config.initialize_tracer()
 tracing = FlaskTracing(tracer, True, app)
 
+with tracer.start_span('first-span') as span:
+    span.set_tag('first-tag', '100')
 
 @app.route('/')
 def homepage():

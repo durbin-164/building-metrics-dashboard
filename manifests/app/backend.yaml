@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: durbin164/building-monitoring-backend:v2
+        image: durbin164/building-monitoring-backend:v3
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -27,7 +27,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-service
+  name: backend-serive
 spec:
   selector:
     app: backend

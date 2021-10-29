@@ -61,6 +61,9 @@ So we can easily monitor backend and frontend service by selecting the service n
 
 ## Tracing our Flask App
 *TODO:*  We will create a Jaeger span to measure the processes on the backend. Once you fill in the span, provide a screenshot of it here.
+
+[Here is the python file](reference-app/backend/app.py) for trace code. 
+
 ![alt text](answer-img/jaeger_tracing-backend.png)
 ## Jaeger in Dashboards
 *TODO:* Now that the trace is running, let's add the metric to our current Grafana dashboard. Once this is completed, provide a screenshot of it here.
@@ -70,28 +73,39 @@ So we can easily monitor backend and frontend service by selecting the service n
 
 TROUBLE TICKET
 
-Name: Backend-service product 500 internal server error.
+Name: [Error on reference-app/backend/app.py](reference-app/backend/app.py)
 
-Date: Oct 28, 2021
+Date: October 30 2021, 00:29:23.946
 
-Subject: MongoBd not found in backend api.
+Subject: Can to get any response for url "/star"
 
-Affected Area: /star
+Affected Area: [reference-app/backend/app.py](reference-app/backend/app.py) line no 47
 
-Severity: critical
+Severity: Critical
 
-Description: When we hit the backend api with url path /str with post request, it produce error and return 500
-status code. It may be cause for not properly setting up mongo db. 
+Description: When we hit the backend api with url path "/str" with post request, it produce error and return 500
+status code. It may be cause for not properly setting up mongo db.
+
+![Here the error span](answer-img/jaeger_tracing_error.png)
 
 
 ## Creating SLIs and SLOs
 *TODO:* We want to create an SLO guaranteeing that our application has a 99.95% uptime per month. Name three SLIs that you would use to measure the success of this SLO.
 To guarantee the success of achieving the SLO for 99.95% application uptime per month, 
-I will measure 3 of the "Four Golden Signals", for instance:
+
+Here the SLOs is that our application has 99.95% uptime per month.
+To metigate this SLOs we need to take some SLI which ensue that this SLO.
+
+I will measure the "Four Golden Signals", for instance:
 
   1. Percentage of CPU and memory consumption in the last 1 month (for saturation).
   2. Percentage of Infrastructure uptime in the last 1 month (for error).
   3. The average number of requests per minute in the last 24 hours (for traffic).
+  4. Percentage of request response time less than 250 milliseconds (for latency).
+
+We also need some errors budget because all applications will not always work perfectly.
+  1. Our application will produce 5xx status code less than 1% in a month
+  2. Service downtime will be 0.001% in next month.
 
 ## Building KPIs for our plan
 *TODO*: Now that we have our SLIs and SLOs, create KPIs to accurately measure these metrics. We will make a dashboard for this, but first write them down here.
@@ -100,7 +114,7 @@ To achieve our SLO, I would collect KPIs everyday
   1. CPU consumption should be less than 80%.
   2. Memory consumption should be less than 80%.
   3. Percentage of infrastructure uptime should be higher than 99.99%.
-  4. Percentage of request response time less than 250 milliseconds should be higher than 99.99%.
+  4. Percentage of request response time less than 500 milliseconds should be higher than 99.99%.
   5. There should not be any 500 errors in the last 1 hour.
   6. Average number of requests per minute should be less than 50.
 ## Final Dashboard
@@ -114,5 +128,15 @@ need more CPU.
 4. Same as CPU, there is also individual service memory utilization graph. 
 5. There is also a service availability metrics, which shows our service availability 100% last one hour. 
 6. And our http request metrics show our cluster total http request status. 
+7. Here also shows error rate and error status
+8. Also shows the request latency.
 
-![alt text](answer-img/kpis.png)
+![alt text](answer-img/kpis1.png)
+
+![alt text](answer-img/kpis2.png)
+
+![alt text](answer-img/kpis3.png)
+
+![alt text](answer-img/kpis4.png)
+
+![alt text](answer-img/kpis5.png)
